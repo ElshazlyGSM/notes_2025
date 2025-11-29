@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_2025/cubits/get_note_cubit/get_note_cubit.dart';
-import 'package:notes_2025/cubits/theme_cubit/theme_cubit.dart';
+import 'package:notes_2025/views/theme_settings_view.dart';
 import 'package:notes_2025/widgets/notes_search_delegate.dart';
 
 class AppbarHomeNote extends StatelessWidget {
@@ -23,15 +23,12 @@ class AppbarHomeNote extends StatelessWidget {
           },
           icon: Icon(Icons.search, size: 30),
         ),
-        BlocBuilder<ThemeCubit, ThemeMode>(
-          builder: (context, themeMode) {
-            final isDark = themeMode == ThemeMode.dark;
-            return IconButton(
-              icon: Icon(isDark ? Icons.light_mode : Icons.dark_mode),
-              onPressed: () {
-                context.read<ThemeCubit>().toggleTheme();
-              },
-              tooltip: isDark ? 'الوضع النهاري' : 'الوضع الليلي',
+        IconButton(
+          icon: Icon(Icons.settings),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ThemeSettingsView()),
             );
           },
         ),
