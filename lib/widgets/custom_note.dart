@@ -7,14 +7,31 @@ import 'package:notes_2025/views/edit_note_view.dart';
 class CustomNote extends StatelessWidget {
   const CustomNote({super.key, required this.note});
   final NotesModel note;
+
+  // دالة لحساب إذا كان اللون فاتح أو غامق
+  bool _isLightColor(Color color) {
+    // حساب الـ luminance (السطوع)
+    return color.computeLuminance() > 0.5;
+  }
+
   @override
   Widget build(BuildContext context) {
+    final noteColor = Color(note.color);
+    // اختيار لون النص بناءً على لون الخلفية
+    final textColor = _isLightColor(noteColor) ? Colors.black : Colors.white;
+    final subtitleColor = _isLightColor(noteColor)
+        ? Colors.black87
+        : Colors.white70;
+    final dateColor = _isLightColor(noteColor)
+        ? Colors.grey.shade700
+        : Colors.grey.shade300;
+
     return GestureDetector(
       onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (conext) {
+            builder: (context) {
               return EditNoteView(note: note);
             },
           ),
@@ -24,7 +41,7 @@ class CustomNote extends StatelessWidget {
         margin: EdgeInsets.only(bottom: 10),
         padding: EdgeInsets.symmetric(vertical: 5, horizontal: 16),
         decoration: BoxDecoration(
-          color: Color(note.color),
+          color: noteColor,
           borderRadius: BorderRadius.circular(20),
         ),
         child: Column(
@@ -35,15 +52,22 @@ class CustomNote extends StatelessWidget {
               title: Padding(
                 padding: const EdgeInsets.only(bottom: 20),
                 child: Text(
+                  note.title,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  note.title,
-                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: textColor, // لون ثابت
+                  ),
                 ),
               ),
               subtitle: Text(
                 note.subTitle,
-                style: TextStyle(fontSize: 20),
+                style: TextStyle(
+                  fontSize: 20,
+                  color: subtitleColor, // لون ثابت
+                ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -52,13 +76,20 @@ class CustomNote extends StatelessWidget {
                   note.delete();
                   BlocProvider.of<GetNoteCubit>(context).getNote();
                 },
-                icon: Icon(Icons.delete, size: 28),
+                icon: Icon(
+                  Icons.delete,
+                  size: 28,
+                  color: textColor, // لون ثابت
+                ),
               ),
             ),
-            Text(note.date),
+            Text(
+              note.date,
+              style: TextStyle(color: dateColor), // لون ثابت
+            ),
             Text(
               note.dateEdit != null ? 'Edit: ${note.dateEdit}' : '',
-              style: TextStyle(color: Colors.grey.shade600),
+              style: TextStyle(color: dateColor), // لون ثابت
             ),
           ],
         ),

@@ -86,13 +86,18 @@ class ColorItem extends StatelessWidget {
 
   final Color backgroundColor;
   final bool isSelected;
+
   @override
   Widget build(BuildContext context) {
+    // تحديد لون الدائرة الخارجية حسب الثيم
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final borderColor = isDarkMode ? Colors.white : Colors.black;
+
     return isSelected
         ? Padding(
             padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 5),
             child: CircleAvatar(
-              backgroundColor: Colors.black,
+              backgroundColor: borderColor, // يتغير حسب الثيم
               radius: 35,
               child: CircleAvatar(backgroundColor: backgroundColor, radius: 32),
             ),

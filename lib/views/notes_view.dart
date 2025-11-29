@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:notes_2025/widgets/add_note_bottom_sheet.dart';
 import 'package:notes_2025/widgets/notes_body.dart';
 
@@ -7,15 +8,23 @@ class NotesView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
+        systemNavigationBarColor: isDark ? Color(0xFF1A1A1A) : Colors.white,
+        systemNavigationBarIconBrightness: isDark
+            ? Brightness.light
+            : Brightness.dark,
+      ),
       child: Scaffold(
         body: NotesBody(),
         floatingActionButton: FloatingActionButton(
-          // backgroundColor: kPrimaryColor,
           onPressed: () {
             showModalBottomSheet(
-              isScrollControlled:
-                  true, //  lBottomSheet عشان ال يطلع لفوق لما الكيبورد يظهر
+              isScrollControlled: true,
               context: context,
               builder: (context) {
                 return AddNoteBottomSheet();
