@@ -12,6 +12,7 @@ class CustomTextField extends StatelessWidget {
     this.onChanged,
     this.controller,
     this.minLines,
+    this.fontSize,
   });
   final String? hintText;
   final void Function(String?)? onSaved;
@@ -21,10 +22,12 @@ class CustomTextField extends StatelessWidget {
   final FormFieldValidator<String>? validator;
   final TextEditingController? controller;
   final int? minLines;
+  final double? fontSize;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      style: TextStyle(fontSize: fontSize),
       controller: controller,
       onChanged: onChanged,
       validator: (value) {

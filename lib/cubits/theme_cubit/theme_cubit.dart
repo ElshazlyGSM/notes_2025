@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
+import 'package:notes_2025/constants.dart';
 
 enum ThemeOption {
   light, // فاتح دائماً
@@ -13,7 +14,6 @@ class ThemeCubit extends Cubit<ThemeMode> {
     _loadTheme();
   }
 
-  static const String _themeBoxName = 'themeBox';
   static const String _themeKey = 'themeOption';
 
   ThemeOption _currentOption = ThemeOption.system;
@@ -21,7 +21,8 @@ class ThemeCubit extends Cubit<ThemeMode> {
 
   // تحميل الثيم المحفوظ
   void _loadTheme() async {
-    final box = await Hive.openBox(_themeBoxName);
+    final box = Hive.box(settingBoxName);
+
     final savedOption = box.get(_themeKey, defaultValue: 'system');
 
     switch (savedOption) {
@@ -56,7 +57,8 @@ class ThemeCubit extends Cubit<ThemeMode> {
     }
 
     // حفظ الاختيار
-    final box = await Hive.openBox(_themeBoxName);
+    final box = Hive.box(settingBoxName);
+
     box.put(_themeKey, option.name);
   }
 

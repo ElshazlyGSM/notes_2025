@@ -48,6 +48,8 @@ class _EditNoteViewState extends State<EditNoteView> {
     'dd/MM/yyyy – hh:mm a',
   ).format(DateTime.now());
 
+  double fontSize = 16.0;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -79,11 +81,25 @@ class _EditNoteViewState extends State<EditNoteView> {
                   widget.note.title = value;
                 },
               ),
-              SizedBox(height: 15),
+              SizedBox(height: 10),
+              Text('Font size'),
+              Slider(
+                value: fontSize,
+                min: 10.0,
+                max: 30.0,
+                divisions: 20,
+                label: fontSize.round().toString(),
+                onChanged: (value) {
+                  setState(() {
+                    fontSize = value;
+                  });
+                },
+              ),
               Expanded(
                 child: SingleChildScrollView(
                   child: CustomTextField(
                     controller: subTitleController,
+                    fontSize: fontSize,
                     hintText: 'subTitle',
                     minLines: 5,
                     maxLines: 50,

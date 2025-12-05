@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:notes_2025/constants.dart';
 import 'package:notes_2025/cubits/get_note_cubit/get_note_cubit.dart';
@@ -12,16 +11,18 @@ import 'package:notes_2025/views/notes_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   // تفعيل الـ Status Bar الشفاف
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-  
+
   await Hive.initFlutter();
   Bloc.observer = SimpleBlocObserver();
 
   Hive.registerAdapter(NotesModelAdapter());
+  await Hive.openBox(settingBoxName);
+
   await Hive.openBox<NotesModel>(kNotesBox);
-  
+
   runApp(const NotesApp());
 }
 
@@ -40,7 +41,7 @@ class NotesApp extends StatelessWidget {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             themeMode: themeMode,
-            
+
             // الثيم الفاتح
             theme: ThemeData(
               brightness: Brightness.light,
@@ -56,7 +57,7 @@ class NotesApp extends StatelessWidget {
                 ),
               ),
             ),
-            
+
             // الثيم الداكن
             darkTheme: ThemeData(
               brightness: Brightness.dark,
@@ -73,7 +74,7 @@ class NotesApp extends StatelessWidget {
               ),
               cardColor: Color(0xFF2C2C2C),
             ),
-            
+
             home: NotesView(),
           );
         },
