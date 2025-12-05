@@ -18,12 +18,14 @@ class EditNoteView extends StatefulWidget {
 class _EditNoteViewState extends State<EditNoteView> {
   late TextEditingController titleController;
   late TextEditingController subTitleController;
+  double fontSize = 16.0;
 
   @override
   void initState() {
     super.initState();
     titleController = TextEditingController(text: widget.note.title);
     subTitleController = TextEditingController(text: widget.note.subTitle);
+    fontSize = widget.note.fontSize;
   }
 
   @override
@@ -37,6 +39,7 @@ class _EditNoteViewState extends State<EditNoteView> {
     widget.note.title = titleController.text;
     widget.note.subTitle = subTitleController.text;
     widget.note.dateEdit = formattedDate;
+    widget.note.fontSize = fontSize;
 
     widget.note.save();
 
@@ -47,8 +50,6 @@ class _EditNoteViewState extends State<EditNoteView> {
   String formattedDate = DateFormat(
     'dd/MM/yyyy – hh:mm a',
   ).format(DateTime.now());
-
-  double fontSize = 16.0;
 
   @override
   Widget build(BuildContext context) {
@@ -92,6 +93,7 @@ class _EditNoteViewState extends State<EditNoteView> {
                 onChanged: (value) {
                   setState(() {
                     fontSize = value;
+                    widget.note.fontSize = value;
                   });
                 },
               ),

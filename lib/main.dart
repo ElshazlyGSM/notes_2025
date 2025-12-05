@@ -20,6 +20,7 @@ void main() async {
 
   Hive.registerAdapter(NotesModelAdapter());
   await Hive.openBox(settingBoxName);
+  // await Hive.deleteBoxFromDisk(kNotesBox);
 
   await Hive.openBox<NotesModel>(kNotesBox);
 

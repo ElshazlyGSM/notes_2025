@@ -14,6 +14,8 @@ class NotesModel extends HiveObject {
   int color;
   @HiveField(4)
   String? dateEdit;
+  @HiveField(5)
+  double fontSize;
 
   NotesModel({
     required this.title,
@@ -21,5 +23,6 @@ class NotesModel extends HiveObject {
     required this.date,
     required this.color,
     this.dateEdit,
+    this.fontSize = 16.0,
   });
 }

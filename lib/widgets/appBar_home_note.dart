@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_2025/cubits/get_note_cubit/get_note_cubit.dart';
 import 'package:notes_2025/views/theme_settings_view.dart';
-import 'package:notes_2025/widgets/font_resize.dart';
 import 'package:notes_2025/widgets/notes_search_delegate.dart';
 
 class AppbarHomeNote extends StatelessWidget {
