@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_quill/flutter_quill.dart';
-import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 import 'package:intl/intl.dart';
 import 'package:notes_2025/cubits/add_note_cubit/add_note_cubit.dart';
 import 'package:notes_2025/cubits/add_note_cubit/add_note_states.dart';
@@ -11,6 +10,7 @@ import 'package:notes_2025/models/notes_model.dart';
 import 'package:notes_2025/widgets/colors_list.dart';
 import 'package:notes_2025/widgets/custom_buttom.dart';
 import 'package:notes_2025/widgets/custom_text_form_field.dart';
+import 'package:notes_2025/widgets/edit_tools.dart';
 
 class AddNoteView extends StatefulWidget {
   const AddNoteView({super.key});
@@ -77,8 +77,6 @@ class _AddNoteViewState extends State<AddNoteView> {
                 child: Column(
                   children: [
                     const SizedBox(height: 16),
-
-                    // Title Field
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: CustomTextField(
@@ -90,132 +88,28 @@ class _AddNoteViewState extends State<AddNoteView> {
                     const SizedBox(height: 16),
 
                     // Toolbar Toggle Button
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Theme.of(context)
-                            .colorScheme
-                            .surfaceContainerHighest
-                            .withValues(alpha: 0.3),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      margin: const EdgeInsets.symmetric(horizontal: 16),
-                      child: InkWell(
-                        onTap: () {
-                          setState(() {
-                            showToolbar = !showToolbar;
-                          });
-                        },
-                        borderRadius: BorderRadius.circular(8),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 8,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Icon(Icons.edit, size: 20),
-                              const SizedBox(width: 8),
-                              const Text(
-                                'Edit Tools',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                              Icon(
-                                showToolbar
-                                    ? Icons.expand_less
-                                    : Icons.expand_more,
-                                size: 24,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                    EditToolsContainer(
+                      showToolbar: showToolbar,
+                      onTap: () {
+                        setState(() {
+                          showToolbar = !showToolbar;
+                        });
+                      },
                     ),
 
                     // Toolbar (قابلة للإظهار والإخفاء)
-                    AnimatedSize(
-                      duration: const Duration(milliseconds: 1000),
-                      curve: Curves.easeInOut,
-                      child: showToolbar
-                          ? Container(
-                              constraints: const BoxConstraints(maxHeight: 100),
-                              margin: const EdgeInsets.only(top: 8),
-                              decoration: BoxDecoration(
-                                color: Theme.of(context).colorScheme.surface,
-                                border: Border(
-                                  top: BorderSide(
-                                    color: Theme.of(context).colorScheme.outline
-                                        .withValues(alpha: 0.2),
-                                  ),
-                                  bottom: BorderSide(
-                                    color: Theme.of(context).colorScheme.outline
-                                        .withValues(alpha: 0.2),
-                                  ),
-                                ),
-                              ),
-                              child: SingleChildScrollView(
-                                child: QuillSimpleToolbar(
-                                  controller: _quillController,
-                                  config: QuillSimpleToolbarConfig(
-                                    showFontFamily: false,
-                                    showStrikeThrough: false,
-                                    showSubscript: false,
-                                    showColorButton: true,
-                                    showBackgroundColorButton: false,
-                                    showAlignmentButtons: true,
-                                    showInlineCode: false,
-                                    showCodeBlock: true,
-                                    showQuote: false,
-                                    showLink: true,
-                                    showClearFormat: false,
-                                    showClipboardPaste: true,
-
-                                    // الصور والفيديو (اختياري - ممكن تقفلهم)
-                                    embedButtons: FlutterQuillEmbeds.toolbarButtons(
-                                      imageButtonOptions:
-                                          const QuillToolbarImageButtonOptions(),
-                                      videoButtonOptions: null, // إخفاء الفيديو
-                                      cameraButtonOptions:
-                                          null, // إخفاء الكاميرا
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            )
-                          : const SizedBox.shrink(),
+                    AnimatedEditTools(
+                      showToolbar: showToolbar,
+                      quillController: _quillController,
                     ),
 
                     const SizedBox(height: 16),
 
                     // Editor with Container and Border
-                    Container(
-                      height: 300,
-                      margin: const EdgeInsets.symmetric(horizontal: 16),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Theme.of(
-                            context,
-                          ).colorScheme.outline.withValues(alpha: 0.3),
-                        ),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: QuillEditor(
-                        controller: _quillController,
-                        scrollController: _scrollController,
-                        focusNode: _focusNode,
-                        config: QuillEditorConfig(
-                          padding: const EdgeInsets.all(12),
-                          placeholder: 'Start writing your note...',
-                          autoFocus: false,
-                          expands: false,
-                          scrollable: true,
-                          embedBuilders: FlutterQuillEmbeds.editorBuilders(),
-                        ),
-                      ),
+                    QuillEditorContainer(
+                      quillController: _quillController,
+                      scrollController: _scrollController,
+                      focusNode: _focusNode,
                     ),
 
                     const SizedBox(height: 20),
