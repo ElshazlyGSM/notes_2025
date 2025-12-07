@@ -35,7 +35,7 @@ class NotesSearchDelegate extends SearchDelegate {
         .where(
           (note) =>
               note.title.toLowerCase().contains(query.toLowerCase()) ||
-              note.subTitle.toLowerCase().contains(query.toLowerCase()),
+              note.subTitleJson.toLowerCase().contains(query.toLowerCase()),
         )
         .toList();
 
@@ -46,9 +46,9 @@ class NotesSearchDelegate extends SearchDelegate {
         return ListTile(
           title: Text(maxLines: 1, overflow: TextOverflow.ellipsis, note.title),
           subtitle: Text(
-            note.subTitle.length > 50
-                ? '${note.subTitle.substring(0, 50)}...'
-                : note.subTitle,
+            note.subTitleJson.length > 50
+                ? '${note.subTitleJson.substring(0, 50)}...'
+                : note.subTitleJson,
             maxLines: 4,
             overflow: TextOverflow.ellipsis,
           ),
@@ -70,7 +70,7 @@ class NotesSearchDelegate extends SearchDelegate {
         .where(
           (note) =>
               note.title.toLowerCase().contains(query.toLowerCase()) ||
-              note.subTitle.toLowerCase().contains(query.toLowerCase()),
+              note.subTitleJson.toLowerCase().contains(query.toLowerCase()),
         )
         .toList();
 
@@ -81,7 +81,7 @@ class NotesSearchDelegate extends SearchDelegate {
         return ListTile(
           title: Text(note.title, maxLines: 1, overflow: TextOverflow.ellipsis),
           subtitle: Text(
-            note.subTitle,
+            note.subTitleJson,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),

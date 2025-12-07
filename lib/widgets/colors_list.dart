@@ -53,7 +53,7 @@ class _ColorsListState extends State<ColorsList> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 86,
+      height: 66,
       child: ListView.builder(
         controller: scrollController,
         scrollDirection: Axis.horizontal,
@@ -98,13 +98,13 @@ class ColorItem extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 5),
             child: CircleAvatar(
               backgroundColor: borderColor, // يتغير حسب الثيم
-              radius: 35,
-              child: CircleAvatar(backgroundColor: backgroundColor, radius: 32),
+              radius: 25,
+              child: CircleAvatar(backgroundColor: backgroundColor, radius: 22),
             ),
           )
         : Padding(
             padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 5),
-            child: CircleAvatar(backgroundColor: backgroundColor, radius: 32),
+            child: CircleAvatar(backgroundColor: backgroundColor, radius: 22),
           );
   }
 }

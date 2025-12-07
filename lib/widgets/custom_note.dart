@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_quill/flutter_quill.dart';
+import 'package:flutter_quill/quill_delta.dart';
 import 'package:notes_2025/cubits/get_note_cubit/get_note_cubit.dart';
 import 'package:notes_2025/models/notes_model.dart';
 import 'package:notes_2025/views/edit_note_view.dart';
@@ -12,6 +16,16 @@ class CustomNote extends StatelessWidget {
   bool _isLightColor(Color color) {
     // حساب الـ luminance (السطوع)
     return color.computeLuminance() > 0.5;
+  }
+
+  String getPlainText(String deltaJson) {
+    try {
+      final delta = Delta.fromJson(jsonDecode(deltaJson));
+      final doc = Document.fromDelta(delta);
+      return doc.toPlainText().trim(); // دي بترجع النص العادي بدون أي تنسيق
+    } catch (e) {
+      return deltaJson; // لو فشل في التحويل يرجع النص الأصلي
+    }
   }
 
   @override
@@ -63,7 +77,7 @@ class CustomNote extends StatelessWidget {
                 ),
               ),
               subtitle: Text(
-                note.subTitle,
+                getPlainText(note.subTitleJson),
                 style: TextStyle(
                   fontSize: 20,
                   color: subtitleColor, // لون ثابت

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:notes_2025/widgets/add_note_bottom_sheet.dart';
+import 'package:notes_2025/views/add_note_view.dart';
 import 'package:notes_2025/widgets/notes_body.dart';
 
 class NotesView extends StatelessWidget {
@@ -23,12 +23,13 @@ class NotesView extends StatelessWidget {
         body: NotesBody(),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            showModalBottomSheet(
-              isScrollControlled: true,
-              context: context,
-              builder: (context) {
-                return AddNoteBottomSheet();
-              },
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return AddNoteView();
+                },
+              ),
             );
           },
           child: Icon(Icons.add),

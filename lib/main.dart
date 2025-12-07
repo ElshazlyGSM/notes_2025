@@ -8,6 +8,8 @@ import 'package:notes_2025/cubits/theme_cubit/theme_cubit.dart';
 import 'package:notes_2025/models/notes_model.dart';
 import 'package:notes_2025/simple_bloc_observer.dart';
 import 'package:notes_2025/views/notes_view.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_quill/flutter_quill.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,6 +42,12 @@ class NotesApp extends StatelessWidget {
       child: BlocBuilder<ThemeCubit, ThemeMode>(
         builder: (context, themeMode) {
           return MaterialApp(
+            localizationsDelegates: [
+              GlobalMaterialLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              FlutterQuillLocalizations.delegate,
+            ],
             debugShowCheckedModeBanner: false,
             themeMode: themeMode,
 
